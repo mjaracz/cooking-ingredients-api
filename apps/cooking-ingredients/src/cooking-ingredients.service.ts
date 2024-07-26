@@ -32,13 +32,16 @@ export class CookingIngredientsService {
   }
 
   async saveCookingIngredients(doc: JSON) {
-    return await this.elasticSearchService.index({
+    return this.elasticSearchService.index({
       index: this.cookingIngredientsIndex,
       document: doc,
     })
   }
 
-  async searchCokkingIngredients() {
-
+  async getAllCookingIngredients() {
+    return this.elasticSearchService.search({ 
+      index: this.cookingIngredientsIndex, 
+      query: { match_all: {} } 
+    })
   }
 }
