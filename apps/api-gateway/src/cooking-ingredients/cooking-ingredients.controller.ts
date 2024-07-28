@@ -5,8 +5,8 @@ import { CookingIngredientsService } from './cooking-ingredients.service';
 export class CookingIngredientsController {
   constructor(private readonly cookingIngredientsService: CookingIngredientsService) { }
 
-  @Get(':username')
-  async getCookingIngredients(@Param('username') username: string) {
-    return this.cookingIngredientsService.receiveAllIngredients(username);
+  @Get('all-recipes')
+  async getAllRecipes() {
+    return this.cookingIngredientsService.receiveAllRecipes();
   }
 }

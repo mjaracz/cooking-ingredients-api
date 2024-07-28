@@ -38,10 +38,12 @@ export class CookingIngredientsService {
     })
   }
 
-  async getAllCookingIngredients() {
-    return this.elasticSearchService.search({ 
-      index: this.cookingIngredientsIndex, 
-      query: { match_all: {} } 
-    })
+  async getAllRecipes() {
+    return this.elasticSearchService.search({
+      index: this.cookingIngredientsIndex,
+      query: {
+        match_all: {}
+      }
+    });
   }
 }
