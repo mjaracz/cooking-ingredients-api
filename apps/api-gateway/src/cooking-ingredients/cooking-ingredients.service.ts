@@ -21,4 +21,14 @@ export class CookingIngredientsService {
         )
       )
   }
+
+  async receiveSearchRecipes(searchValue: string) {
+    return this.natsService
+      .send('get.recipes.search', searchValue)
+      .pipe(
+        map(queueData => ({
+          data: queueData
+        }))
+      )
+  }
 }

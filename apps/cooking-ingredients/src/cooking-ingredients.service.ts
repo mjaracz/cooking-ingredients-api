@@ -5,10 +5,12 @@ import * as fs from 'fs';
 @Injectable()
 export class CookingIngredientsService {
   private readonly cookingIngredientsIndex = 'cooking-ingredients';
+  private docId = 0;
   constructor(
     private readonly elasticSearchService: ElasticsearchService,
     private readonly logger: Logger,
   ) {
+    
     this.fillUpInitialData();
   }
 
@@ -24,7 +26,9 @@ export class CookingIngredientsService {
           if (err) return err;
 
           const parsedData = JSON.parse(data.toString());
-          this.saveCookingIngredients(parsedData);
+          const isAlreadySaved = this.elasticSearchService.exists({ index: this.cookingIngredientsIndex, id: '1' });
+
+          if (isAlreadySaved) this.saveCookingIngredients(parsedData);
         })
       })
     })
@@ -34,6 +38,7 @@ export class CookingIngredientsService {
   async saveCookingIngredients(doc: JSON) {
     return this.elasticSearchService.index({
       index: this.cookingIngredientsIndex,
+      id: `${++this.docId}`,
       document: doc,
     })
   }
@@ -47,5 +52,16 @@ export class CookingIngredientsService {
         }
       })
       .then(searchRes => searchRes.hits.hits);
+  }
+
+  async searchRecipes(searchValue: string) {
+    return this.elasticSearchService.search({
+      index: this.cookingIngredientsIndex,
+      query: {
+        query_string: {
+          query: searchValue
+        }
+      }
+    })
   }
 }
