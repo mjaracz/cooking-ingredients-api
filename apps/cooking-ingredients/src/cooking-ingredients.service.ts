@@ -39,11 +39,13 @@ export class CookingIngredientsService {
   }
 
   async getAllRecipes() {
-    return this.elasticSearchService.search({
-      index: this.cookingIngredientsIndex,
-      query: {
-        match_all: {}
-      }
-    });
+    return this.elasticSearchService
+      .search({
+        index: this.cookingIngredientsIndex,
+        query: {
+          match_all: {}
+        }
+      })
+      .then(searchRes => searchRes.hits.hits);
   }
 }
