@@ -14,6 +14,6 @@ async function bootstrap() {
   });
   await app
     .listen()
-    .then(() => logger.verbose('CookingIngredients microservice is listening'))
+    .then(() => logger.log('CookingIngredients microservice is listening', 'InstanceLoader'))
 }
 bootstrap();

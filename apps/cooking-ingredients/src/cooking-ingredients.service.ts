@@ -55,13 +55,15 @@ export class CookingIngredientsService {
   }
 
   async searchRecipes(searchValue: string) {
-    return this.elasticSearchService.search({
-      index: this.cookingIngredientsIndex,
-      query: {
-        query_string: {
-          query: searchValue
+    return this.elasticSearchService
+      .search({
+        index: this.cookingIngredientsIndex,
+        query: {
+          query_string: {
+            query: searchValue
+          }
         }
-      }
-    })
+      })
+      .then(searchRes => searchRes.hits.hits);
   }
 }
