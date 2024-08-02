@@ -14,7 +14,7 @@ export class CookingIngredientsService {
     this.fillUpInitialData();
   }
 
-  fillUpInitialData() {
+  protected fillUpInitialData() {
     fs.readdir('data', (err: Error, files: string[]) => {
       if (err) {
         this.logger.error(err);
