@@ -4,31 +4,23 @@ import { map } from 'rxjs';
 
 @Injectable()
 export class CookingIngredientsService {
-  constructor(
-    @Inject('NATS') private readonly natsService: ClientProxy
-  ) { }
+  constructor(@Inject('NATS') private readonly natsService: ClientProxy) {}
 
   async receiveAllRecipes() {
     const startTime = Date.now();
-    return this.natsService
-      .send('get.recipes.all', {})
-      .pipe(
-        map(queueData =>
-        ({
-          queueTook: Date.now() - startTime,
-          data: queueData,
-        })
-        )
-      )
+    return this.natsService.send('get.recipes.all', {}).pipe(
+      map((queueData) => ({
+        queueTook: Date.now() - startTime,
+        data: queueData,
+      })),
+    );
   }
 
   async receiveSearchRecipes(searchValue: string) {
-    return this.natsService
-      .send('get.recipes.search', searchValue)
-      .pipe(
-        map(queueData => ({
-          data: queueData
-        }))
-      )
+    return this.natsService.send('get.recipes.search', searchValue).pipe(
+      map((queueData) => ({
+        data: queueData,
+      })),
+    );
   }
 }
